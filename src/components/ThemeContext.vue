@@ -1,11 +1,17 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { provideTheme } from '../composables/theme';
+import { defineComponent, PropType, ref } from 'vue';
+import { provideTheme, Theme } from '../composables/theme';
 
 export default defineComponent({
   name: 'ThemeContext',
-  setup() {
-    provideTheme(ref('dark'));
+  props: {
+    theme: {
+      type: String as PropType<Theme>,
+      default: 'light',
+    },
+  },
+  setup(props) {
+    provideTheme(ref(props.theme));
   },
 });
 </script>

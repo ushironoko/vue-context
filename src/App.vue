@@ -1,9 +1,18 @@
 <script lang="ts">
+import ThemeContext from './components/ThemeContext.vue';
+import BaseButton from './components/BaseButton.vue';
+
 export default {
   name: 'App',
-}
+  components: {
+    ThemeContext,
+    BaseButton,
+  },
+};
 </script>
 
 <template>
-  <div>test</div>
+  <ThemeContext theme="light">
+    <BaseButton />
+  </ThemeContext>
 </template>

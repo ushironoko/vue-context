@@ -1,10 +1,11 @@
 import { InjectionKey, inject, Ref, provide, readonly } from 'vue';
 
-type Theme = Ref<string>;
+export type Theme = 'light' | 'dark';
+export type ThemeRef = Ref<Theme>;
 
-export const ThemeSymbol: InjectionKey<Theme> = Symbol();
+export const ThemeSymbol: InjectionKey<ThemeRef> = Symbol();
 
-export function provideTheme(theme: Theme) {
+export function provideTheme(theme: ThemeRef) {
   provide(ThemeSymbol, theme);
 }
 
@@ -15,6 +16,6 @@ export function useTheme() {
   }
 
   const theme = readonly(t);
-  const setTheme = (theme: string) => (t.value = theme);
+  const setTheme = (theme: Theme) => (t.value = theme);
   return { theme, setTheme };
 }
