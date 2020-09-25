@@ -1,29 +1,27 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useTheme } from '../composables/theme';
+import { useHeavyState } from '../composables/heavy';
 
 export default defineComponent({
-  name: 'BaseButton',
+  name: 'RenderContainer',
   props: {
-    handleFn: {
-      type: Function as () => void,
+    index: {
+      type: Number,
       required: true,
     },
   },
   setup() {
-    function handleAlert(text: string) {
-      alert(text);
-    }
+    const [state, setState] = useHeavyState();
     return {
-      ...useTheme(),
-      handleAlert,
+      state,
+      setState,
     };
   },
 });
 </script>
 
 <template>
-  <button :class="theme" @click="handleFn">button</button>
+  {{ state[index] }}
 </template>
 
 <style scoped>
