@@ -30,9 +30,9 @@ export default {
 </script>
 
 <template>
-  <!-- <ThemeContext theme="light">
+  <ThemeContext theme="light">
     <BaseButton :handle-fn="destroyInstance" />
-  </ThemeContext> -->
+  </ThemeContext>
   <ApiProvider v-for="i of 20000" :key="i" :state="json">
     <RenderContainer :index="i" />
   </ApiProvider>
