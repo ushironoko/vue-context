@@ -104,18 +104,18 @@ export default {
 </script>
 
 <template>
-  <div>
-    {{ array }}
-    <button @click="pushedState">push</button>
-  </div>
-  <div>
-    <button @click="moveState">move</button>
-  </div>
-  {{ p }}
-  <button @click="a">add</button>
-  <button @click="stopHandler">stop</button>
-  <button @click="o2Mutation">o2Mutation</button>
-  <ThemeContext theme="black">
+  <ThemeContext theme="dark">
+    <div>
+      {{ array }}
+      <BaseButton :handle-fn="pushedState">push</BaseButton>
+    </div>
+    <div>
+      <BaseButton :handle-fn="moveState">move</BaseButton>
+    </div>
+    {{ p }}
+    <BaseButton :handle-fn="a">add</BaseButton>
+    <BaseButton :handle-fn="stopHandler">stop</BaseButton>
+    <BaseButton :handle-fn="o2Mutation">o2Mutation</BaseButton>
     <SampleSlot>
       <template #foo>slot1</template>
       <template #bar>slot2</template>

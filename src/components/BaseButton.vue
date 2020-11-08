@@ -7,7 +7,7 @@ export default defineComponent({
   props: {
     handleFn: {
       type: Function as () => void,
-      default: () => {},
+      required: true,
     },
     bar: {
       type: Number,
