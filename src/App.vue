@@ -20,56 +20,71 @@ export default {
     SampleSlot,
   },
   setup() {
+    // nomal reactive object
     const obj = reactive({
       hoge: 0,
-      piyo: 'uuu',
     });
 
-    function a() {
+    // mutate reactive object
+    function plusOneObj() {
       obj.hoge++;
     }
 
+    // mutate nested reactive object
     const curry = (o = 2) => () => {
       const r = obj.hoge * o;
       return {
         j: r,
       };
     };
-    const p = computed(curry);
 
-    const text = ref('hoge');
+    // curry computed ref
+    const curryComputed = computed(curry);
+
+    // nomal text ref
+    const textRef = ref('hoge');
+    // mutable computed
     const mutable = computed({
       get: () => {
-        return text.value;
+        return textRef.value;
       },
       set: (newValue) => {
-        text.value = newValue;
+        textRef.value = newValue;
       },
     });
 
-    const stopHandler = watchEffect(() => console.log(obj.hoge));
+    function mutateComputedFn() {
+      mutable.value += 'e';
+    }
 
-    const o = {
+    // stoppable watchEffect
+    const stopHandler = watchEffect(() => (textRef.value += mutable.value));
+
+    // nested object
+    const nestedObj = {
       ho: 0,
       hi: {
         yo: 'cheke',
       },
     };
-
-    const o2 = shallowReadonly(o);
-    watchEffect(() => console.log(o2));
-    function o2Mutation() {
-      o2.hi.yo = 'hogeee';
+    // shallow readonly
+    const shallowReadOnlyObj = shallowReadonly(nestedObj);
+    // mutate shallowReadonly object
+    function MutateShallowReadOnlyObj() {
+      shallowReadOnlyObj.hi.yo = 'hogeee';
     }
 
+    // nested object
     const o3 = {
       ho: 0,
       hi: {
         yo: 'cheke',
       },
     };
+    // nomal readonly
     const o3r = readonly(o3);
     o3.ho = 100;
+    // readonly object side effect
     console.log(o3.ho);
     console.log(o3r.ho);
 
@@ -79,22 +94,27 @@ export default {
       array[0].id = array[0].id * 10;
     }
 
+    // nomal watch
     const watchState = ref<string | number>('0');
     watch(watchState, (next, prev) => {
       if (typeof prev === 'string' && typeof next === 'number') {
         console.log('move string => number');
       }
     });
-
+    // mutate watch state
     function moveState() {
       watchState.value = 0;
     }
 
     return {
-      p,
-      a,
+      plusOneObj,
+      curryComputed,
+      textRef,
+      mutateComputedFn,
+      mutable,
       stopHandler,
-      o2Mutation,
+      shallowReadOnlyObj,
+      MutateShallowReadOnlyObj,
       array,
       pushedState,
       moveState,
@@ -106,16 +126,27 @@ export default {
 <template>
   <ThemeContext theme="dark">
     <div>
-      {{ array }}
+      <div>
+        {{ array }}
+      </div>
       <BaseButton :handle-fn="pushedState">push</BaseButton>
     </div>
     <div>
       <BaseButton :handle-fn="moveState">move</BaseButton>
     </div>
-    {{ p }}
-    <BaseButton :handle-fn="a">add</BaseButton>
-    <BaseButton :handle-fn="stopHandler">stop</BaseButton>
-    <BaseButton :handle-fn="o2Mutation">o2Mutation</BaseButton>
+    <div>
+      <div>text ref:{{ textRef }}</div>
+      <div>mutable computed:{{ mutable }}</div>
+      <BaseButton :handle-fn="mutateComputedFn">mutateComputedFn</BaseButton>
+      <BaseButton :handle-fn="stopHandler">stopLocationMutate</BaseButton>
+    </div>
+    <div>
+      {{ plusOneObj }}
+      <BaseButton :handle-fn="plusOneObj">add</BaseButton>
+    </div>
+    <BaseButton :handle-fn="MutateShallowReadOnlyObj"
+      >MutateShallowReadOnlyObj</BaseButton
+    >
     <SampleSlot>
       <template #foo>slot1</template>
       <template #bar>slot2</template>

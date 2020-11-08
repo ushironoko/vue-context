@@ -23,7 +23,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <button :class="theme" @click="handleFn">button</button>
+  <button :class="theme" @click="handleFn"><slot /></button>
 </template>
 
 <style scoped>
