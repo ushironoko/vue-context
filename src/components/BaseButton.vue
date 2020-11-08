@@ -7,16 +7,16 @@ export default defineComponent({
   props: {
     handleFn: {
       type: Function as () => void,
-      required: true,
+      default: () => {},
+    },
+    bar: {
+      type: Number,
+      default: 1,
     },
   },
   setup() {
-    function handleAlert(text: string) {
-      alert(text);
-    }
     return {
       ...useTheme(),
-      handleAlert,
     };
   },
 });
@@ -27,10 +27,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-button {
-  width: 120px;
-  height: 60px;
-}
 .dark {
   background: #000;
   color: #fff;

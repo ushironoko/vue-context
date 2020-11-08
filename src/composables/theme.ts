@@ -1,6 +1,6 @@
 import { InjectionKey, inject, Ref, provide, readonly } from 'vue';
 
-export type Theme = 'light' | 'dark';
+export type Theme = 'black' | 'white';
 export type ThemeRef = Ref<Theme>;
 
 export const ThemeSymbol: InjectionKey<ThemeRef> = Symbol();

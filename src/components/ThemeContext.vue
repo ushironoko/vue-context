@@ -7,7 +7,7 @@ export default defineComponent({
   props: {
     theme: {
       type: String as PropType<Theme>,
-      default: 'light',
+      default: 'white',
     },
   },
   setup(props) {

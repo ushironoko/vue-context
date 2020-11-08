@@ -1,3 +1,3 @@
 module.exports = {
-  extends:['eslint-config-ushironoko-vue']
-}
+  extends: ['eslint-config-ushironoko-vue'],
+};
