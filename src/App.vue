@@ -7,6 +7,7 @@ import {
   watch,
   shallowReadonly,
   readonly,
+  onMounted,
 } from 'vue';
 import ThemeContext from './components/ThemeContext.vue';
 import BaseButton from './components/BaseButton.vue';
@@ -85,8 +86,8 @@ export default {
     const o3r = readonly(o3);
     o3.ho = 100;
     // readonly object side effect
-    console.log(o3.ho);
-    console.log(o3r.ho);
+    console.log('nested obj', o3.ho);
+    console.log('mutable obj', o3r.ho);
 
     // reactive array
     const array = reactive([{ id: 1 }]);
@@ -106,13 +107,25 @@ export default {
       watchState.value = 0;
     }
 
+    const message = ref('mounted');
+
+    // ライフサイクルメソッドにコールバックを渡して実行する
+    onMounted(() => {
+      console.log(message.value); // mounted!
+    });
+
+    // setup 内の処理はどのライフサイクルフックよりも先に実行される
+    message.value += '!';
+
     return {
+      obj,
       plusOneObj,
       curryComputed,
       textRef,
       mutateComputedFn,
       mutable,
       stopHandler,
+      nestedObj,
       shallowReadOnlyObj,
       MutateShallowReadOnlyObj,
       array,
@@ -141,12 +154,16 @@ export default {
       <BaseButton :handle-fn="stopHandler">stopLocationMutate</BaseButton>
     </div>
     <div>
-      {{ plusOneObj }}
+      {{ obj }}
       <BaseButton :handle-fn="plusOneObj">add</BaseButton>
     </div>
-    <BaseButton :handle-fn="MutateShallowReadOnlyObj"
-      >MutateShallowReadOnlyObj</BaseButton
-    >
+    <div>
+      {{ nestedObj }}
+      {{ shallowReadOnlyObj }}
+      <BaseButton :handle-fn="MutateShallowReadOnlyObj"
+        >MutateShallowReadOnlyObj</BaseButton
+      >
+    </div>
     <SampleSlot>
       <template #foo>slot1</template>
       <template #bar>slot2</template>

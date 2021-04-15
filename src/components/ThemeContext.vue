@@ -1,5 +1,11 @@
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue';
+import {
+  defineComponent,
+  PropType,
+  ref,
+  onRenderTracked,
+  onRenderTriggered,
+} from 'vue';
 import { provideTheme, Theme } from '../composables/theme';
 
 export default defineComponent({
@@ -12,6 +18,13 @@ export default defineComponent({
   },
   setup(props) {
     provideTheme(ref(props.theme));
+    onRenderTracked((e) => {
+      console.log('tracker', e);
+    });
+
+    onRenderTriggered((e) => {
+      console.log('trigger', e);
+    });
   },
 });
 </script>
